@@ -1,0 +1,102 @@
+execute pathogen#infect()
+
+scriptencoding utf-8
+set encoding=utf-8
+
+syntax enable
+filetype plugin indent on
+
+"set list
+"set listchars=trail:•
+
+let g:tex_flavor='latex'
+
+set smartindent
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set smarttab
+set shiftround
+set backspace=2
+set backspace=indent,eol,start
+
+set background=dark
+colorscheme solarized
+
+set number
+
+set laststatus=2
+set t_Co=256
+
+set guifont=Terminus
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ' '
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
+let g:lightline = {
+            \ 'colorscheme': 'default',
+            \
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'fugitive', 'filename' ] ],
+            \ },
+            \
+            \ 'component_function': {
+            \   'fugitive': 'MyFugitive',
+            \   'readonly': 'MyReadonly',
+            \   'modified': 'MyModified',
+            \   'filename': 'MyFilename',
+            \ },
+            \
+            \ 'separator': { 'left': g:airline_left_sep, 'right': g:airline_right_sep},
+            \ 'subseparator': { 'left': g:airline_left_alt_sep, 'right': g:airline_right_alt_sep },
+            \
+\ }
+
+function! MyModified()
+     if &filetype == "help"
+         return ""
+     elseif &modified
+         return " +"
+     elseif &modifiable
+         return ""
+     else
+         return ""
+     endif
+endfunction
+
+ 
+function! MyReadonly()
+    if &filetype == "help"
+        return ""
+    elseif &readonly
+        return g:airline_symbols.readonly
+    else
+        return ""
+    endif
+endfunction
+
+function! MyFugitive()
+    if exists("*fugitive#head")
+        let _ = fugitive#head()
+        return strlen(_) ? g:airline_symbols.branch._ : ''
+    endif
+    return ''
+endfunction
+
+function! MyFilename()
+    return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+                \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
+                \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+

@@ -1,4 +1,22 @@
-execute pathogen#infect()
+"execute pathogen#infect()
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'itchyny/lightline.vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tpope/vim-fugitive'
+Plug 'wlangstroth/vim-racket'
+Plug 'lervag/vimtex'
+Plug 'scrooloose/nerdtree'
+Plug 'majutsushi/tagbar'
+
+" Super PITA
+"Plug 'Valloric/YouCompleteMe'
+
+" Work stuff
+Plug 'hashivim/vim-terraform'
+
+call plug#end()
 
 scriptencoding utf-8
 set encoding=utf-8
@@ -44,7 +62,7 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
 let g:lightline = {
-            \ 'colorscheme': 'default',
+            \ 'colorscheme': 'wombat',
             \
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],

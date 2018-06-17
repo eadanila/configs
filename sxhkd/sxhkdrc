@@ -103,10 +103,10 @@ super + {o,i}
 #	bspc {desktop -f,node -d} '^{1-9,10}'
 
 super + {1-9}
-    ~/Developer/nixenv/selectdesktop.sh '{1-9}'
+    ~/Developer/nixenv/scripts/selectdesktop.sh '{1-9}'
 
 super + shift + {1-9}
-    ~/Developer/nixenv/moveto.sh '{1-9}'
+    ~/Developer/nixenv/scripts/moveto.sh '{1-9}'
     
 
 #

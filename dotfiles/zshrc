@@ -60,6 +60,10 @@ COMPLETION_WAITING_DOTS="true"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
   git
+  vi-mode
+  virtualenv
+  colored-man-pages
+  powerline
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -111,11 +115,12 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory autocd correct nomatch notify
 unsetopt beep extendedglob
-bindkey -e
+bindkey -v
 # End of lines configured by zsh-newuser-install
 
 motto=("Memento mori." "I am certain of nothing.")
 echo $motto[$(( $RANDOM % ${#motto[@]} + 1 ))]
+unsetopt HIST_VERIFY
 
 autoload -U colors && colors
 

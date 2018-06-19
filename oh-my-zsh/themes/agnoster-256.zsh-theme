@@ -234,7 +234,7 @@ prompt_status() {
 
 prompt_mode() {
     case $KEYMAP in
-        vicmd) prompt_segment $myblue $default "Normal";;
+        vicmd) prompt_segment $purple $default "Normal";;
         viins|main|*) prompt_segment $mygreen $default "Insert";;
     esac
 }

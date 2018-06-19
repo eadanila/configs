@@ -19,10 +19,7 @@
 # # Goals
 #
 # The aim of this theme is to only show you *relevant* information. Like most
-# prompts, it will only show git information when in a git working directory.
-# However, it goes a step further: everything from the current user and
-# hostname to whether the last call exited with an error to whether background
-# jobs are running in this shell will all be displayed automatically when
+# prompts, it will only show git information when in a git working directory.  # However, it goes a step further: everything from the current user and # hostname to whether the last call exited with an error to whether background # jobs are running in this shell will all be displayed automatically when
 # appropriate.
 
 ### Segment drawing
@@ -45,6 +42,9 @@ CURRENT_BG='NONE'
   # escape sequence with a single literal character.
   # Do not change this! Do not make it '\u2b80'; that is the old, wrong code point.
   SEGMENT_SEPARATOR=$'\ue0b0'
+  SUBSEGMENT_SEPARATOR=$'\ue0b1'
+  RSEGMENT_SEPARATOR=$'\ue0b2'
+  RSUBSEGMENT_SEPARATOR=$'\ue0b3'
 }
 
 # Begin a segment
@@ -56,8 +56,10 @@ prompt_segment() {
   [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
   if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
     echo -n " %{$bg%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR%{$fg%} "
+  elif [[ $CURRENT_BG != 'NONE' && $1 = $CURRENT_BG ]]; then
+    echo -n " %{$fg%}$SUBSEGMENT_SEPARATOR%{$fg%} "
   else
-    echo -n "%{$bg%}%{$fg%}"
+    echo -n "%{$bg%}%{$fg%} "
   fi
   CURRENT_BG=$1
   [[ -n $3 ]] && echo -n $3
@@ -71,7 +73,7 @@ prompt_end() {
     echo -n "%{%k%}"
   fi
   echo -n "%{%f%}"
-  CURRENT_BG=''
+  CURRENT_BG='NONE'
 }
 
 ### Prompt components
@@ -212,31 +214,76 @@ prompt_status() {
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
 }
 
-prompt_ssh() {
-  if [[ -n "$SSH_CLIENT" ]]; then
-    prompt_segment blue black "SSH"
-  fi
+prompt_mode() {
+    case $KEYMAP in
+        vicmd) prompt_segment cyan black "Normal";;
+        viins|main|*) prompt_segment blue black "Insert";;
+    esac
 }
 
 ## Main prompt
 build_prompt() {
   RETVAL=$?
-  prompt_ssh
+  prompt_mode
   prompt_virtualenv
-  prompt_context
   prompt_dir
   prompt_git
   prompt_bzr
   prompt_hg
   prompt_end
-  print "\n%{$fg[cyan]%}>%{$fg[default]%}"
+  }
+
+PROMPT='%{%f%b%k%}$(build_prompt)$(print "\n>") '
+
+# Begin a segment
+# Takes two arguments, background and foreground. Both can be omitted,
+# rendering default background/foreground.
+rprompt_segment() {
+  local bg fg
+  [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
+  [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
+  if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
+    #echo -n " $RSEGMENT_SEPARATOR%{$bg%F{$CURRENT_BG}%}%{$fg%} "
+  elif [[ $CURRENT_BG != 'NONE' && $1 = $CURRENT_BG ]]; then
+    #echo -n " $RSUBSEGMENT_SEPARATOR%{$bg%F{$CURRENT_BG}%}%{$fg%} "
+  else
+    #echo -n "%{$bg%}%{$fg%} "
+  fi
+  CURRENT_BG=$1
+  [[ -n $3 ]] && echo -n $3
+}
+
+# End the prompt, closing any open segments
+rprompt_end() {
+  if [[ -n $CURRENT_BG ]]; then
+    echo -n " %{%k%F{$CURRENT_BG}%}"
+  else
+    echo -n "%{%k%}"
+  fi
+  echo -n "%{%f%}"
+  CURRENT_BG=''
+}
+
+# Context: user@hostname (who am I and where am I)
+rprompt_context() {
+  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+    rprompt_segment white default "%(!.%{%F{yellow}%}.)[%{$fg[cyan]%}%n%{$fg[default]%}@%{$fg[magenta]%}%m%{$fg[default]%}]"
+  fi
+}
+
+rprompt_ssh() {
+  if [[ -n "$SSH_CLIENT" ]]; then
+    rprompt_segment white black "SSH"
+  fi
 }
 
 build_rprompt() {
-  RETVAL=$?
-  prompt_status
-  prompt_end
+  rprompt_context
+  rprompt_end
 }
 
-PROMPT='%{%f%b%k%}$(build_prompt) '
+_lineup=$'\e[1A'
+_linedown=$'\e[1B'
+
+RPROMPT="%{${_lineup}%}$(build_rprompt)%{${_linedown}%}"
 

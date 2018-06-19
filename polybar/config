@@ -18,9 +18,9 @@ primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/eDP-1]
+[bar/DP-0]
 enable-ipc = true
-monitor = ${env:MONITOR:eDP-1}
+monitor = ${env:MONITOR:DP-0}
 width = 100%
 height = 16
 ;offset-x = 1%
@@ -51,8 +51,6 @@ modules-left = bspwm
 modules-center = mpd
 modules-right = filesystem cust-volume memory cpu wlan eth battery temperature date
 
-tray-position = right
-tray-padding = 2
 ;tray-transparent = true
 ;tray-background = #0063ff
 
@@ -70,61 +68,9 @@ tray-padding = 2
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-[bar/DP-2-1]
+[bar/DP-2]
 enable-ipc = true
-monitor = ${env:MONITOR:DP-2-1}
-width = 100%
-height = 16
-;offset-x = 1%
-;offset-y = 1%
-radius = 0
-fixed-center = false
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-line-size = 3
-line-color = #f00
-
-border-size = 0
-border-color = ${colors.background}
-
-padding-left = 0
-padding-right = 2
-
-module-margin-left = 1
-module-margin-right = 2
-
-font-0 = fixed:pixelsize=10;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = siji:pixelsize=10;1
-
-modules-left = bspwm
-modules-center = mpd
-modules-right = filesystem cust-volume memory cpu wlan eth battery temperature date
-
-tray-position = right
-tray-padding = 2
-;tray-transparent = true
-;tray-background = #0063ff
-
-;wm-restack = bspwm
-;wm-restack = i3
-
-;override-redirect = true
-
-;scroll-up = bspwm-desknext
-;scroll-down = bspwm-deskprev
-
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
-
-cursor-click = pointer
-cursor-scroll = ns-resize
-
-[bar/DP-2-2]
-enable-ipc = true
-monitor = ${env:MONITOR:DP-2-2}
+monitor = ${env:MONITOR:DP-2}
 width = 100%
 height = 16
 ;offset-x = 1%
@@ -171,9 +117,9 @@ tray-padding = 2
 ;scroll-up = i3wm-wsnext
 ;scroll-down = i3wm-wsprev
 
-[bar/DP-2-3]
+[bar/DP-4]
 enable-ipc = true
-monitor = ${env:MONITOR:DP-2-3}
+monitor = ${env:MONITOR:DP-4}
 width = 100%
 height = 16
 ;offset-x = 1%
@@ -204,8 +150,6 @@ modules-left = bspwm
 modules-center = mpd
 modules-right = filesystem cust-volume memory cpu wlan eth battery temperature date 
 
-tray-position = right
-tray-padding = 2
 ;tray-transparent = true
 ;tray-background = #0063ff
 
@@ -526,10 +470,10 @@ margin-bottom = 5
 
 [module/cust-volume]
 type = custom/ipc
-hook-0 = ~/Developer/wm-scripts/volume-display.sh
+hook-0 = ~/Developer/nixenv/scripts/volume-display.sh
 initial = 1
-scroll-up = ~/Developer/wm-scripts/volume-up.sh
-scroll-down = ~/Developer/wm-scripts/volume-down.sh
+scroll-up = ~/Developer/nixenv/scripts/volume-up.sh
+scroll-down = ~/Developer/nixenv/scripts/volume-down.sh
 
 [module/cust-volume-refresh]
 type = custom/script

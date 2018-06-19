@@ -114,7 +114,8 @@ unsetopt beep extendedglob
 bindkey -e
 # End of lines configured by zsh-newuser-install
 
-echo "Memento mori."
+motto=("Memento mori." "I am certain of nothing.")
+echo $motto[$(( $RANDOM % ${#motto[@]} + 1 ))]
 
 autoload -U colors && colors
 

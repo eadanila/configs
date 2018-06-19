@@ -1,6 +1,6 @@
 "execute pathogen#infect()
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 Plug 'itchyny/lightline.vim'
 Plug 'altercation/vim-colors-solarized'
@@ -24,8 +24,10 @@ set encoding=utf-8
 syntax enable
 filetype plugin indent on
 
-"set list
-"set listchars=trail:•
+set list
+set listchars=trail:•
+
+nnoremap ; :
 
 let g:tex_flavor='latex'
 
@@ -66,14 +68,14 @@ let g:lightline = {
             \
             \ 'active': {
             \   'left': [ [ 'mode', 'paste' ],
-            \             [ 'fugitive', 'filename' ] ],
+            \             [ 'filename', 'fugitive', 'modified' ] ],
             \ },
             \
             \ 'component_function': {
             \   'fugitive': 'MyFugitive',
             \   'readonly': 'MyReadonly',
             \   'modified': 'MyModified',
-            \   'filename': 'MyFilename',
+            \   'filename': 'MyFilename', 
             \ },
             \
             \ 'separator': { 'left': g:airline_left_sep, 'right': g:airline_right_sep},
@@ -85,7 +87,7 @@ function! MyModified()
      if &filetype == "help"
          return ""
      elseif &modified
-         return " +"
+         return "+"
      elseif &modifiable
          return ""
      else
@@ -113,8 +115,6 @@ function! MyFugitive()
 endfunction
 
 function! MyFilename()
-    return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-                \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
-                \ ('' != MyModified() ? ' ' . MyModified() : '')
+    return ('' != expand('%:t') ? expand('%:t') : '[No Name]')
 endfunction
 

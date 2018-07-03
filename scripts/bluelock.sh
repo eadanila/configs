@@ -3,7 +3,7 @@
 export DISPLAY=:0
 
 MAC=40:CB:C0:03:33:D5
-THRESHOLD=-15
+THRESHOLD=-20
 
 
 RSSI=`hcitool rssi $MAC 2>/dev/null| egrep -o "[-]?[0-9]+"`

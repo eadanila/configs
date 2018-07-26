@@ -5,5 +5,4 @@ rofi -show $1 \
      -bc "white" \
      -separator-style "solid" \
      -hide-scrollbar \
-     -fuzzy
 

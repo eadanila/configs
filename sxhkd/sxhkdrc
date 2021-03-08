@@ -27,10 +27,10 @@ XF86AudioPrev
     playerctl previous
 
 XF86AudioRaiseVolume
-    ~/Developer/nixenv/scripts/volume-up.sh
+    ~/Developer/configs/scripts/volume-up.sh
 
 XF86AudioLowerVolume
-    ~/Developer/nixenv/scripts/volume-down.sh
+    ~/Developer/configs/scripts/volume-down.sh
 
 super + ctrl + l
     dm-tool lock
@@ -106,10 +106,10 @@ super + {o,i}
 #	bspc {desktop -f,node -d} '^{1-9,10}'
 
 super + {1-9}
-    ~/Developer/nixenv/scripts/selectdesktop.sh '{1-9}'
+    ~/Developer/configs/scripts/selectdesktop.sh '{1-9}'
 
 super + shift + {1-9}
-    ~/Developer/nixenv/scripts/moveto.sh '{1-9}'
+    ~/Developer/configs/scripts/moveto.sh '{1-9}'
     
 
 #
